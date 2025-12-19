@@ -12,6 +12,9 @@ app.use(cors({
     origin: process.env.REACT_APP_URL, // Your React app URL
     credentials: true
 }));
+app.post('/api/test',(req,res)=>{
+    res.send("API is working");
+});
 app.use(express.json());
 app.use('/auth', AuthRouters);
 const PORT = process.env.PORT ||5000;
