@@ -1,5 +1,5 @@
 import { useState } from 'react'
- 
+import { Analytics } from "@vercel/analytics/react"
 import './App.css'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,6 +10,7 @@ function App() {
 
   return (
     <>
+    <Analytics/>
      <ToastContainer />
       <AppRoutes />
     </>
