@@ -204,10 +204,10 @@ const resendVerificationCode = async (req, res) => {
 };
 
 // Login Controller
+// In controllers/Auth.js - Update login function
 const login = async (req, res) => {
     try {
-        const { password } = req.body;
-        const email = req.body.email ? req.body.email.trim() : null;
+        const { email, password } = req.body;
 
         // Validate input
         if (!email || !password) {
@@ -237,13 +237,13 @@ const login = async (req, res) => {
             });
         }
 
-        // Check if user is verified
-        if (!user.isVerified) {
-            return res.status(403).json({
-                success: false,
-                message: "Please verify your email before logging in"
-            });
-        }
+        // REMOVE THIS BLOCK - Allow login even if not verified
+        // if (!user.isVerified) {
+        //     return res.status(403).json({
+        //         success: false,
+        //         message: "Please verify your email before logging in"
+        //     });
+        // }
 
         // Generate JWT token
         const token = jwt.sign(
@@ -263,13 +263,14 @@ const login = async (req, res) => {
             createdAt: user.createdAt
         };
 
-        console.log(`User logged in: ${user.email}`);
+        console.log(`User logged in: ${user.email}, Verified: ${user.isVerified}`);
 
         res.status(200).json({
             success: true,
             message: "Login successful",
             token,
-            user: userData
+            user: userData,
+            isVerified: user.isVerified // Add this flag
         });
 
     } catch (error) {
